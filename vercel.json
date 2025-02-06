@@ -1,9 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/agents",
-      "schedule": "*/5 * * * *",
-      "method": "POST"
+      "path": "/api/cron",
+      "schedule": "*/5 * * * *"
     }
   ]
 }
