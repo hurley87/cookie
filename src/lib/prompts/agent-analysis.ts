@@ -1,4 +1,4 @@
-import { CookieApiResponse } from '@/types/cookie-api';
+import { CookieApiResponse, CookieInterval } from '@/types/cookie-api';
 
 export const getSystemPrompt =
   () => `You are an expert cryptocurrency financial analyst specializing in on-chain analytics and social sentiment analysis. Your analysis must be structured in the following format:
@@ -73,7 +73,10 @@ Using the data above, provide your analysis following the exact format specified
 };
 
 // Helper function to generate the metrics table
-const generateMarketMetricsTable = (sevenDayData: any, threeDayData: any) => `
+const generateMarketMetricsTable = (
+  sevenDayData: CookieInterval,
+  threeDayData: CookieInterval
+) => `
 | Metric | 7-Day Value | 7-Day Δ% | 3-Day Value | 3-Day Δ% |
 |--------|-------------|----------|-------------|----------|
 | Price | $${sevenDayData.price.toFixed(

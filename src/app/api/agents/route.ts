@@ -30,10 +30,7 @@ async function fetchTweets(twitterUsername: string) {
 
   const tweets = await cookieApi.searchTweets(`@${twitterUsername}`, from, to);
 
-  return tweets.map(
-    (result: any) =>
-      `Tweet: "${result.text}" has ${result.engagementsCount} engagements and ${result.smartEngagementPoints} smart engagements.\n\n`
-  );
+  return tweets;
 }
 
 export async function POST() {

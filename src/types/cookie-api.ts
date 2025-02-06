@@ -3,7 +3,7 @@ export interface CookieApiResponse {
   _3Days: CookieInterval | null;
 }
 
-interface CookieInterval {
+export interface CookieInterval {
   twitterUsernames: string[];
   agentName: string;
   marketCapTrend: string;

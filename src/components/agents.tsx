@@ -3,24 +3,11 @@
 import { useState } from 'react';
 import { Users as UsersIcon } from 'lucide-react';
 
-interface Agent {
-  agentName: string;
-  // Add other agent properties as needed
-  [key: string]: any;
-}
-
-interface SearchError {
-  message: string;
-}
-
 export default function Agents() {
   const [isLoading, setIsLoading] = useState(false);
-  const [agents, setAgents] = useState<Agent[]>([]);
-  const [error, setError] = useState<SearchError | null>(null);
 
   async function fetchAgents() {
     setIsLoading(true);
-    setError(null);
 
     try {
       const response = await fetch('/api/agents', {
@@ -36,9 +23,8 @@ export default function Agents() {
 
       const { data } = await response.json();
       console.log('data', data);
-      setAgents(data || []);
     } catch (err) {
-      setError({ message: 'Failed to fetch agents. Please try again.' });
+      console.error('Error fetching agents:', err);
     } finally {
       setIsLoading(false);
     }
@@ -59,27 +45,6 @@ export default function Agents() {
 
       {isLoading && (
         <div className="mt-4 text-center text-gray-500">Loading...</div>
-      )}
-
-      {error && (
-        <div className="mt-4 text-center text-red-500">{error.message}</div>
-      )}
-
-      {agents.length > 0 && (
-        <div className="mt-4 space-y-4 overflow-y-auto h-48">
-          <h2 className="text-xl font-semibold">Agents</h2>
-          {agents.map((agent) => (
-            <div
-              key={agent.agentName}
-              className="p-4 border border-gray-200 rounded-md shadow-sm hover:border-green-500 transition-colors"
-            >
-              <h3 className="font-medium">{agent.name}</h3>
-              <pre className="text-sm overflow-x-auto mt-2">
-                {JSON.stringify(agent, null, 2)}
-              </pre>
-            </div>
-          ))}
-        </div>
       )}
     </div>
   );

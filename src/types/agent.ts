@@ -10,6 +10,14 @@ export type AgentAnalysisRecord = {
   contract_address: string;
   _7Days: CookieApiResponse['_7Days'];
   _3Days: CookieApiResponse['_3Days'];
-  tweets: any[];
+  tweets: {
+    text: string;
+    isQuote: boolean;
+    isReply: boolean;
+    createdAt: string;
+    likesCount: number;
+    quotesCount: number;
+    repliesCount: number;
+  };
   analysis: typeof agentAnalysisSchema._type;
 };
