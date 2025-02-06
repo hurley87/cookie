@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  console.log('Cron job executed!');
+  console.log('Analyst cron job executed!');
 
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/agents`, {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/analyst`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
