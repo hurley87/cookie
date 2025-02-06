@@ -3,26 +3,25 @@
 import { useState } from 'react';
 import { Users as UsersIcon } from 'lucide-react';
 
+type Agent = {
+  name: string;
+};
+
 export default function Agents() {
   const [isLoading, setIsLoading] = useState(false);
+  const [agents, setAgents] = useState<Agent[]>([]);
 
   async function fetchAgents() {
     setIsLoading(true);
+    console.log('fetching agents');
 
     try {
-      const response = await fetch('/api/agents', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch('/api/agents');
+      if (!response.ok) throw new Error('Failed to fetch agents');
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch agents');
-      }
-
-      const { data } = await response.json();
+      const data = await response.json();
       console.log('data', data);
+      setAgents(data);
     } catch (err) {
       console.error('Error fetching agents:', err);
     } finally {
@@ -43,8 +42,18 @@ export default function Agents() {
         </button>
       </div>
 
-      {isLoading && (
+      {isLoading ? (
         <div className="mt-4 text-center text-gray-500">Loading...</div>
+      ) : (
+        agents.length > 0 && (
+          <ul className="mt-4 space-y-2">
+            {agents.map((agent, index) => (
+              <li key={index} className="p-3 bg-white rounded-lg shadow">
+                {agent.name}
+              </li>
+            ))}
+          </ul>
+        )
       )}
     </div>
   );

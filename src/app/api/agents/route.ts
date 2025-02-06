@@ -7,8 +7,9 @@ import {
   generateAnalysisPrompt,
 } from '../../../lib/prompts/agent-analysis';
 import { cookieApi } from '../../../lib/services/cookie-api';
-import { supabaseService } from '../../../lib/services/supabase';
+import { supabaseService } from '@/lib/services/supabase';
 import { AgentAnalysisRecord } from '../../../types/agent';
+import { NextResponse } from 'next/server';
 
 const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
@@ -81,6 +82,26 @@ export async function POST() {
     console.error('API error:', error);
     return Response.json(
       { error: 'Failed to perform analysis' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const { data, error } = await supabaseService.from('agents').select('*');
+
+    if (error) {
+      return NextResponse.json(
+        { error: 'Failed to fetch agents' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

@@ -29,6 +29,7 @@ export async function POST() {
 
   try {
     const result = await triggerAgentAnalysis();
+    console.log('result', result);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Cron job error:', error);

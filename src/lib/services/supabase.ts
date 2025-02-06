@@ -24,4 +24,6 @@ export const supabaseService = {
 
     return data;
   },
+  // Add direct access to supabase client
+  from: supabase.from.bind(supabase),
 };
