@@ -89,7 +89,10 @@ export async function POST() {
 
 export async function GET() {
   try {
-    const { data, error } = await supabaseService.from('agents').select('*');
+    const { data, error } = await supabaseService
+      .from('agents')
+      .select('*')
+      .order('updated_at', { ascending: false });
 
     if (error) {
       return NextResponse.json(
