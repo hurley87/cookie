@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Agent } from '@/types/agent';
 
 async function fetchAnalystFeed() {
   try {
@@ -32,7 +33,7 @@ export default async function Home() {
     <div className="container mx-auto p-4 max-w-xl">
       {agents.length > 0 && (
         <div className="space-y-4">
-          {agents.map((agent: any, index: number) => (
+          {agents.map((agent: Agent, index: number) => (
             <div key={index} className="mb-8 border-b border-gray-300 pb-4">
               <div className="flex items-center mb-2">
                 <div>
