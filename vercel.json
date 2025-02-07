@@ -10,13 +10,10 @@
     }
   ],
   "functions": {
-    "api/trader": {
+    "src/app/api/trader": {
       "maxDuration": 300
     },
-    "api/trade-execute": {
-      "maxDuration": 300
-    },
-    "api/analyst-cron": {
+    "src/app/api/trade-execute": {
       "maxDuration": 300
     }
   }
