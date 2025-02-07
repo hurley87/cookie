@@ -170,6 +170,7 @@ export async function GET() {
     // Execute trades sequentially
     const results = [];
     for (const recommendation of filteredRecommendations) {
+      console.log('recommendation', recommendation);
       try {
         const env = envSchema.parse(process.env);
         const { agent } = await initializeGameAgent({
