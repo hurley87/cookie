@@ -7,20 +7,20 @@ import {
 } from '@/lib/prompts/trade-generator';
 import { tradeRecommendationSchema } from '@/lib/schemas/trade-recommendation';
 import { CdpAgentkit } from '@coinbase/cdp-agentkit-core';
-import { HumanMessage } from '@langchain/core/messages';
+// import { HumanMessage } from '@langchain/core/messages';
 import { CdpToolkit } from '@coinbase/cdp-langchain';
 import { ChatOpenAI } from '@langchain/openai';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { z } from 'zod';
 
 // Environment variable schema
-const envSchema = z.object({
-  API_KEY_NAME: z.string(),
-  API_KEY_PRIVATE_KEY: z.string(),
-  WALLET_DATA: z.string(),
-  NETWORK_ID: z.string(),
-  OPENAI_API_KEY: z.string(),
-});
+// const envSchema = z.object({
+//   API_KEY_NAME: z.string(),
+//   API_KEY_PRIVATE_KEY: z.string(),
+//   WALLET_DATA: z.string(),
+//   NETWORK_ID: z.string(),
+//   OPENAI_API_KEY: z.string(),
+// });
 
 // Agent configuration type
 interface AgentConfig {
@@ -172,36 +172,32 @@ export async function GET() {
     for (const recommendation of filteredRecommendations) {
       console.log('recommendation', recommendation);
       try {
-        const env = envSchema.parse(process.env);
-        const { agent } = await initializeGameAgent({
-          cdpApiKeyName: env.API_KEY_NAME,
-          cdpWalletData: env.WALLET_DATA,
-          cdpApiKeyPrivateKey: env.API_KEY_PRIVATE_KEY,
-          recommendation: { recommendations: [recommendation] },
-          networkId: env.NETWORK_ID,
-          apiKey: env.OPENAI_API_KEY,
-        });
-
-        const stream = await agent.stream({
-          messages: [new HumanMessage('Execute the trade')],
-        });
-
-        let agentResponse = '';
-        for await (const chunk of stream) {
-          if ('agent' in chunk) {
-            agentResponse = chunk.agent.messages[0].content;
-          } else if ('tools' in chunk) {
-            console.log(chunk.tools.messages[0].content);
-          }
-        }
-
-        console.log('agentResponse', agentResponse);
-
-        results.push({
-          recommendation,
-          result: agentResponse,
-          status: 'success',
-        });
+        // const env = envSchema.parse(process.env);
+        // const { agent } = await initializeGameAgent({
+        //   cdpApiKeyName: env.API_KEY_NAME,
+        //   cdpWalletData: env.WALLET_DATA,
+        //   cdpApiKeyPrivateKey: env.API_KEY_PRIVATE_KEY,
+        //   recommendation: { recommendations: [recommendation] },
+        //   networkId: env.NETWORK_ID,
+        //   apiKey: env.OPENAI_API_KEY,
+        // });
+        // const stream = await agent.stream({
+        //   messages: [new HumanMessage('Execute the trade')],
+        // });
+        // let agentResponse = '';
+        // for await (const chunk of stream) {
+        //   if ('agent' in chunk) {
+        //     agentResponse = chunk.agent.messages[0].content;
+        //   } else if ('tools' in chunk) {
+        //     console.log(chunk.tools.messages[0].content);
+        //   }
+        // }
+        // console.log('agentResponse', agentResponse);
+        // results.push({
+        //   recommendation,
+        //   result: agentResponse,
+        //   status: 'success',
+        // });
       } catch (error) {
         console.error(
           `Trade execution failed for ${recommendation.trade.name}:`,
