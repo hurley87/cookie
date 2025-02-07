@@ -65,6 +65,8 @@ export async function GET() {
       });
     }
 
+    console.log('recommendations', filteredRecommendations);
+
     return Response.json({ recommendations: filteredRecommendations });
   } catch (error) {
     console.error('API error:', error);
