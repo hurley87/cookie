@@ -7,6 +7,10 @@
     {
       "path": "/api/trader",
       "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/influencer",
+      "schedule": "0 * * * *"
     }
   ],
   "functions": {
@@ -14,6 +18,9 @@
       "maxDuration": 300
     },
     "src/app/api/trade-execute": {
+      "maxDuration": 300
+    },
+    "src/app/api/influencer": {
       "maxDuration": 300
     }
   }
