@@ -9,5 +9,10 @@
       "schedule": "*/5 * * * *",
       "maxDuration": 300
     }
-  ]
+  ],
+  "functions": {
+    "src/app/api/trader": {
+      "maxDuration": 60
+    }
+  }
 }
