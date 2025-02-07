@@ -70,22 +70,27 @@ export async function GET() {
       filteredRecommendations.map(async (recommendation) => {
         console.log('recommendation', recommendation);
         try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_APP_URL}/api/trade-execute`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ recommendation }),
-            }
-          );
+          const { data, error } = await supabaseService
+            .from('recommendations')
+            .insert({
+              ...recommendation.trade,
+              justification: recommendation.justification,
+            });
 
-          if (!response.ok) {
-            throw new Error(`Trade execution failed: ${response.statusText}`);
+          if (error) {
+            console.error('Supabase error:', error);
+            return Response.json(
+              { error: 'Failed to save recommendation' },
+              { status: 500 }
+            );
           }
 
-          return await response.json();
+          console.log('recommendation saved successfully', data);
+
+          return {
+            status: 'success',
+            message: 'Recommendation saved successfully',
+          };
         } catch (error) {
           console.error(
             `Trade execution failed for ${recommendation.trade.name}:`,
