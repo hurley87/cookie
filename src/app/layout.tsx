@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import Link from 'next/link';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -58,7 +59,33 @@ export default function RootLayout({
             backgroundSize: '100% 100%',
           }}
         />
-        {children}
+        <nav className="flex justify-between items-center max-w-screen mx-auto w-full container">
+          <Link
+            href="/"
+            className="text-xl font-bold hover:text-indigo-400 transition-colors duration-200"
+          >
+            AgentStrategy
+          </Link>
+          <ul className="flex space-x-6 text-lg font-medium p-6">
+            <li>
+              <Link
+                href="/"
+                className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
+              >
+                Analyst
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/trades"
+                className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
+              >
+                Trader
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="container mx-auto py-6 px-4 max-w-2xl">{children}</div>
       </body>
     </html>
   );
