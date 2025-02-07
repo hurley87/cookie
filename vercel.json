@@ -10,7 +10,10 @@
     }
   ],
   "functions": {
-    "src/app/api/trader": {
+    "/api/trader": {
+      "maxDuration": 300
+    },
+    "/api/trade-execute": {
       "maxDuration": 300
     }
   }
