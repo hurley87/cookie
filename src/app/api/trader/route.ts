@@ -69,13 +69,16 @@ export async function GET() {
     const results = await Promise.all(
       filteredRecommendations.map(async (recommendation) => {
         try {
-          const response = await fetch('/api/trade-execute', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ recommendation }),
-          });
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/trade-execute`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ recommendation }),
+            }
+          );
 
           if (!response.ok) {
             throw new Error(`Trade execution failed: ${response.statusText}`);
