@@ -1,9 +1,9 @@
-import Agents from '@/components/agents';
+import AnalystFeed from '@/components/analyst-feed';
 
 export default function Home() {
   return (
-    <div className="h-80 overflow-y-auto flex flex-col gap-4">
-      <Agents />
+    <div className="flex flex-col gap-4">
+      <AnalystFeed />
     </div>
   );
 }
