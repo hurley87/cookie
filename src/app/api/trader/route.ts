@@ -70,7 +70,7 @@ export async function GET() {
       filteredRecommendations.map(async (recommendation) => {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/trade-execute`,
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/trade-execute`,
             {
               method: 'POST',
               headers: {
