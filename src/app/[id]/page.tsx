@@ -21,11 +21,9 @@ async function getAgent(id: string): Promise<AgentAnalysisRecord | null> {
   return data;
 }
 
-export default async function AgentPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Params = Promise<{ id: string }>;
+
+export default async function AgentPage({ params }: { params: Params }) {
   // Explicitly await the entire params object
   const { id } = await params;
   const agent = await getAgent(id);
