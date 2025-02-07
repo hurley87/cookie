@@ -5,6 +5,7 @@ export const getSystemPrompt =
 
 EXECUTIVE SUMMARY
 • Provide a 2-3 sentence overview of your key findings and recommendation
+• Refer to 'the token' as the subject of the analysis
 
 TECHNICAL ANALYSIS (Score: 0-10)
 • Price Action: Support/resistance levels, chart patterns, momentum indicators
