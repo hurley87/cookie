@@ -6,7 +6,8 @@
     },
     {
       "path": "/api/trader",
-      "schedule": "*/5 * * * *"
+      "schedule": "*/5 * * * *",
+      "maxDuration": 300
     }
   ]
 }
