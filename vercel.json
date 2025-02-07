@@ -3,6 +3,10 @@
     {
       "path": "/api/analyst-cron",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/trader",
+      "schedule": "*/5 * * * *"
     }
   ]
 }

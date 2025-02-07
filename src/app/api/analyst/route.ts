@@ -1,14 +1,11 @@
-import { base } from '../../../lib/agents';
+import { base } from '@/lib/agents';
 import { generateObject } from 'ai';
 import { openai } from '@ai-sdk/openai';
-import { agentAnalysisSchema } from '../../../lib/schemas/agent-analysis';
-import {
-  getSystemPrompt,
-  generateAnalysisPrompt,
-} from '../../../lib/prompts/agent-analysis';
-import { cookieApi } from '../../../lib/services/cookie-api';
+import { agentAnalysisSchema } from '@/lib/schemas/agent-analysis';
+import { getSystemPrompt, generateAnalysisPrompt } from '@/lib/prompts/analyst';
+import { cookieApi } from '@/lib/services/cookie-api';
 import { supabaseService } from '@/lib/services/supabase';
-import { AgentAnalysisRecord } from '../../../types/agent';
+import { AgentAnalysisRecord } from '@/types/agent';
 import { NextResponse } from 'next/server';
 
 const formatDate = (date: Date) => date.toISOString().split('T')[0];

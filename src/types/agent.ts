@@ -12,10 +12,19 @@ export interface TradingRecommendation {
 export interface ThreeDayMetrics {
   price: number;
   priceDeltaPercent: number;
+  priceTrend: string;
   mindshare: number;
   mindshareDeltaPercent: number;
+  mindshareTrend: string;
   marketCap: number;
   marketCapDeltaPercent: number;
+  marketCapTrend: string;
+  volume24Hours: number;
+  volume24HoursDeltaPercent: number;
+  volumeTrend: string;
+  liquidity: number;
+  holdersCount: number;
+  holdersCountDeltaPercent: number;
 }
 
 export interface Agent {
