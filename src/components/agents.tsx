@@ -16,7 +16,7 @@ export default function Agents() {
     console.log('fetching agents');
 
     try {
-      const response = await fetch('/api/agents');
+      const response = await fetch('/api/analyst');
       if (!response.ok) throw new Error('Failed to fetch agents');
 
       const data = await response.json();
