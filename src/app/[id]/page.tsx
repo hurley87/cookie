@@ -236,6 +236,103 @@ export default async function AgentPage({ params }: { params: Params }) {
           </>
         )}
 
+        {/* Analysis Stats */}
+        <div className="p-0">
+          <h2 className="text-xl font-semibold mb-6">Detailed Analysis</h2>
+
+          {/* Executive Summary */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-3">Executive Summary</h3>
+            <p className="text-gray-700">{agent.analysis.executiveSummary}</p>
+          </div>
+
+          {/* Technical Analysis */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-3">Technical Analysis</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Score</div>
+                <div className="text-xl font-bold">
+                  {agent.analysis.technicalAnalysis.score}/10
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Price Action</div>
+                <div className="text-gray-700">
+                  {agent.analysis.technicalAnalysis.priceAction}
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Volume Analysis
+                </div>
+                <div className="text-gray-700">
+                  {agent.analysis.technicalAnalysis.volumeAnalysis}
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Market Structure
+                </div>
+                <div className="text-gray-700">
+                  {agent.analysis.technicalAnalysis.marketStructure}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Metrics */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-3">Social Metrics</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Score</div>
+                <div className="text-xl font-bold">
+                  {agent.analysis.socialMetrics.score}/10
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Sentiment Analysis
+                </div>
+                <div className="text-gray-700">
+                  {agent.analysis.socialMetrics.sentimentAnalysis}
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Engagement Quality
+                </div>
+                <div className="text-gray-700">
+                  {agent.analysis.socialMetrics.engagementQuality}
+                </div>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Social Momentum
+                </div>
+                <div className="text-gray-700">
+                  {agent.analysis.socialMetrics.socialMomentum}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Supporting Rationale */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-3">Supporting Rationale</h3>
+            <ul className="list-disc list-inside space-y-2">
+              {agent.analysis.supportingRationale.map((rationale, index) => (
+                <li key={index} className="text-gray-700">
+                  {rationale}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-200" />
+
         {/* Recent Tweet */}
         {agent.tweets && agent.tweets.length > 0 && (
           <div className="p-0">
