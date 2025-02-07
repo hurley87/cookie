@@ -19,7 +19,7 @@ Key Analysis Points:
    - Concentration metrics
    - Market structure
 
-Your recommendations should be data-driven and consider both technical and social factors. For each token, provide a clear recommendation with allocation suggestions that sum up to 100% across all BUY recommendations.`;
+Your recommendations should be data-driven and consider both technical and social factors. Never recommend a BUY for more than 20% of available ETH.`;
 
 export const generateTradePrompt = (agents: Agent[]) => {
   const agentMetrics = agents
@@ -72,7 +72,5 @@ For each agent, provide a recommendation following this structure:
 5. Allocation percentage (0-100)
    - For BUY recommendations, allocations should sum to 100% across all agents
    - For SELL/HOLD, set allocation to 0
-6. Justification with key data points
-
-Note: Ensure that the total allocation percentage across all BUY recommendations sums to 50%.`;
+6. Justification with key data points`;
 };

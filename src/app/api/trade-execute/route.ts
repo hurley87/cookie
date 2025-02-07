@@ -78,24 +78,23 @@ async function initializeGameAgent({
   const trade = recommendation.trade;
 
   const tradeRules = `
-    You are a trading agent operating on the Base network. Your task is to execute the following trade:
+    You are a trading agent operating on the Base network. Follow these precise instructions:
 
-    Asset: ${trade.name}
-    Contract: ${trade.token_contract}
-    Action: ${trade.trade_action}
-    Allocation: ${trade.allocation_percentage}%
+    Trade Details:
+    - ASSET: ${trade.name} (${trade.token_contract})
+    - Action: ${trade.trade_action}
+    - Size: ${trade.allocation_percentage}% 
 
-    Trading Rules:
-    1. Execute the trade at the current market price
-    2. Allocate exactly ${trade.allocation_percentage}% of available capital
-    3. Verify all transaction parameters before execution
-    4. Report back the execution status, including:
-       - Executed price
-       - Transaction hash
-       - Allocated amount
-       - Any relevant warnings or errors
-
-    Do not deviate from these parameters without explicit authorization.
+    Execution Rules:
+    1. For BUY orders:
+       - Calculate ${trade.allocation_percentage}% of total available capital
+       - trade ETH for ASSET
+    
+    2. For SELL orders:
+       - Calculate ${trade.allocation_percentage}% of current position size
+       - trade ASSET for ETH
+    
+    Execute this trade immediately and report back with the results. This is not a WOW token.
   `;
 
   const agent = createReactAgent({
