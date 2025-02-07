@@ -69,8 +69,9 @@ For each agent, provide a recommendation following this structure:
 2. Trade action (BUY/SELL/HOLD)
 3. Conviction level (HIGH/MEDIUM/LOW)
 4. Time horizon (SHORT/MEDIUM/LONG)
-5. Allocation percentage (0-100)
-   - For BUY recommendations, allocations should sum to 100% across all agents
-   - For SELL/HOLD, set allocation to 0
+5. Allocation (single number):
+   - For BUY: Enter a number between 0-20 (represents % of available ETH to buy)
+   - For SELL: Enter a number between 0-100 (represents % of current position to sell)
+   - For HOLD: Enter 0
 6. Justification with key data points`;
 };

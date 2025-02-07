@@ -87,11 +87,11 @@ async function initializeGameAgent({
 
     Execution Rules:
     1. For BUY orders:
-       - Calculate ${trade.allocation_percentage}% of total available capital
+       - Calculate ${trade.allocation_percentage}% of ETH in wallet
        - trade ETH for ASSET
     
     2. For SELL orders:
-       - Calculate ${trade.allocation_percentage}% of current position size
+       - Calculate ${trade.allocation_percentage}% of ASSET in wallet
        - trade ASSET for ETH
     
     Execute this trade immediately and report back with the results. This is not a WOW token.
