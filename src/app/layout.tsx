@@ -83,6 +83,14 @@ export default function RootLayout({
                 Trader
               </Link>
             </li>
+            <li>
+              <Link
+                href="/tweets"
+                className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
+              >
+                Influencer
+              </Link>
+            </li>
           </ul>
         </nav>
         <div className="container mx-auto py-6 px-4 max-w-2xl">{children}</div>
