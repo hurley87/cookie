@@ -69,13 +69,17 @@ export async function GET() {
     const results = await Promise.all(
       filteredRecommendations.map(async (recommendation) => {
         console.log('recommendation', recommendation);
+
+        const trade = {
+          ...recommendation.trade,
+          justification: recommendation.justification,
+        };
+
+        console.log('trade', trade);
         try {
           const { data, error } = await supabaseService
-            .from('recommendations')
-            .insert({
-              ...recommendation.trade,
-              justification: recommendation.justification,
-            });
+            .from('trades')
+            .insert(trade);
 
           if (error) {
             console.error('Supabase error:', error);
