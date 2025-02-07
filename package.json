@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.9",
+    "@coinbase/cdp-agentkit-core": "^0.0.14",
+    "@coinbase/cdp-langchain": "^0.0.15",
+    "@langchain/langgraph": "^0.2.45",
+    "@langchain/openai": "^0.4.2",
     "@supabase/supabase-js": "^2.48.1",
     "@types/papaparse": "^5.3.15",
     "ai": "^4.1.16",
