@@ -237,17 +237,31 @@ export default async function AgentPage({ params }: { params: Params }) {
         )}
 
         {/* Recent Tweet */}
-        {agent.tweets && (
+        {agent.tweets && agent.tweets.length > 0 && (
           <div className="p-0">
             <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-            <div className="p-4">
-              <p className="text-gray-800">{agent.tweets.text}</p>
-              <div className="mt-2 text-sm text-gray-500 flex gap-4">
-                <span>❤️ {agent.tweets.likesCount}</span>
-                <span>🔄 {agent.tweets.quotesCount}</span>
-                <span>💬 {agent.tweets.repliesCount}</span>
-                <span>{new Date(agent.tweets.createdAt).toLocaleString()}</span>
-              </div>
+            <div className="space-y-4">
+              {agent.tweets.map((tweet, index) => (
+                <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                  <div className="mb-2">
+                    <a
+                      href={`https://x.com/${tweet.authorUsername}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                      @{tweet.authorUsername}
+                    </a>
+                  </div>
+                  <p className="text-gray-800">{tweet.text}</p>
+                  <div className="mt-2 text-sm text-gray-500 flex gap-4">
+                    <span>❤️ {tweet.likesCount}</span>
+                    <span>🔄 {tweet.retweetsCount}</span>
+                    <span>💬 {tweet.repliesCount}</span>
+                    <span>{new Date(tweet.createdAt).toLocaleString()}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
