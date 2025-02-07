@@ -65,7 +65,29 @@ export async function GET() {
       });
     }
 
-    console.log('recommendations', filteredRecommendations);
+    // execute trade with agentkit
+
+    // iterate through filteredRecommendations and console log the recommendation
+    filteredRecommendations.forEach((rec) => {
+      console.log(rec);
+    });
+
+    // const { data: existingRecommendations, error: existingError } =
+    //   await supabaseService
+    //     .from('trades')
+    //     .select('*')
+    //     .order('created_at', { ascending: false })
+    //     .limit(10);
+
+    // if (existingError) {
+    //   console.error('Supabase error:', existingError);
+    //   return Response.json(
+    //     { error: 'Failed to fetch existing recommendations' },
+    //     { status: 500 }
+    //   );
+    // }
+
+    // console.log('existingRecommendations', existingRecommendations);
 
     return Response.json({ recommendations: filteredRecommendations });
   } catch (error) {
