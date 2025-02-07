@@ -195,7 +195,7 @@ export default async function Home() {
                     href={`https://dexscreener.com/base/${agent.contract_address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:text-blue-600 hover:scale-105 transform transition-all duration-200 flex items-center space-x-1"
+                    className="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center space-x-1"
                   >
                     <span>DEX Screener</span>
                     <svg
@@ -208,9 +208,22 @@ export default async function Home() {
                   </a>
                   <Link
                     href={`/${agent.id}`}
-                    className="text-blue-500 hover:text-blue-600 hover:scale-105 transform transition-all duration-200"
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium text-sm hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
                   >
-                    Analysis
+                    <span>View Analysis</span>
+                    <svg
+                      className="ml-2 w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
                   </Link>
                 </div>
               </div>

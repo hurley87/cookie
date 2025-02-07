@@ -48,7 +48,7 @@ export default async function AgentPage({ params }: { params: Params }) {
       <div className="mb-6">
         <Link
           href="/"
-          className="text-blue-500 hover:text-blue-600 hover:scale-105 transform transition-all duration-200 inline-flex items-center gap-2"
+          className="text-white hover:scale-105 transform transition-all duration-200 inline-flex items-center gap-2"
         >
           <svg
             className="w-4 h-4"
