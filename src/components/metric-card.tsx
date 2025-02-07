@@ -8,7 +8,7 @@ export function MetricCard({ label, value, change }: MetricCardProps) {
   return (
     <div className="p-4 bg-gray-50 rounded-lg">
       <div className="text-sm text-gray-600">{label}</div>
-      <div className="text-xl font-bold">{value}</div>
+      <div className="text-xl font-bold text-gray-900">{value}</div>
       {change !== 0 && (
         <div
           className={`text-sm ${

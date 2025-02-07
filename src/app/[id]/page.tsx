@@ -164,9 +164,6 @@ export default async function AgentPage({ params }: { params: Params }) {
             <div className="px-6 py-4">
               <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 3-Day Performance
-                <span className="text-sm px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
-                  72h
-                </span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <MetricCard
@@ -233,9 +230,6 @@ export default async function AgentPage({ params }: { params: Params }) {
             <div className="px-6 py-4">
               <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 7-Day Performance
-                <span className="text-sm px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
-                  7d
-                </span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <MetricCard
