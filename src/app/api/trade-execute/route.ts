@@ -23,21 +23,6 @@ interface AgentConfig {
   source: string;
   sourceVersion: string;
 }
-
-type Trade = {
-  name: string;
-  token_contract: string;
-  trade_action: string;
-  allocation_percentage: number;
-  conviction_level: string;
-  time_horizon: string;
-};
-
-type Recommendation = {
-  trade: Trade;
-  justification: string;
-};
-
 /**
  * Initializes the game agent with the specified configuration
  */
@@ -45,14 +30,12 @@ async function initializeGameAgent({
   cdpApiKeyName,
   cdpWalletData,
   cdpApiKeyPrivateKey,
-  recommendation,
   networkId,
   apiKey,
 }: {
   cdpApiKeyName: string;
   cdpWalletData: string;
   cdpApiKeyPrivateKey: string;
-  recommendation: Recommendation;
   networkId: string;
   apiKey: string;
 }) {
@@ -75,7 +58,7 @@ async function initializeGameAgent({
   const tools = cdpToolkit.getTools();
 
   // Extract trade details from the recommendation
-  const trade = recommendation.trade;
+  //   const trade = recommendation.trade;
 
   const tradeRules = `
     You are a trading agent operating on the Base network. Follow these precise instructions:
@@ -113,7 +96,6 @@ export async function POST(request: Request) {
       cdpApiKeyName: env.API_KEY_NAME,
       cdpWalletData: env.WALLET_DATA,
       cdpApiKeyPrivateKey: env.API_KEY_PRIVATE_KEY,
-      recommendation,
       networkId: env.NETWORK_ID,
       apiKey: env.OPENAI_API_KEY,
     });
