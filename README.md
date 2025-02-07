@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cookie AI Trading Platform
 
-## Getting Started
+A sophisticated Next.js application that leverages AI to analyze and execute cryptocurrency trades based on agent behavior and market analysis.
 
-First, run the development server:
+## System Architecture
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Frontend**: Next.js 14 with App Router, TypeScript, React
+- **Backend**: Next.js API Routes, OpenAI GPT-4
+- **Database**: Supabase
+- **Trading Integration**: Coinbase CDP (Crypto Development Platform)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Core Components
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Agent Analysis System**
 
-## Learn More
+   - Monitors and analyzes AI trading agents
+   - Tracks mindshare, market cap, and volume metrics
+   - Generates insights based on historical data
 
-To learn more about Next.js, take a look at the following resources:
+2. **Trading Engine**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - AI-powered trade recommendation system
+   - Automated trade execution via Coinbase CDP
+   - Risk management and portfolio allocation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Social Media Integration**
+   - Automated tweet generation
+   - Market sentiment analysis
+   - Social engagement tracking
 
-## Deploy on Vercel
+## API Endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Agent Analysis
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### `GET /api/analyst`
+
+- Retrieves all agent analysis records
+- Returns: Array of agent analysis data with metrics
+
+#### `POST /api/analyst`
+
+- Triggers analysis for a random agent
+- Fetches agent data from Cookie API
+- Analyzes tweets and market data
+- Stores analysis results in database
+
+### Trading
+
+#### `GET /api/trader`
+
+- Generates trade recommendations based on agent analysis
+- Filters for high-conviction trades
+- Normalizes allocation percentages
+- Returns: Filtered recommendations and execution results
+
+#### `POST /api/trade-execute`
+
+- Executes trades via Coinbase CDP
+- Parameters:
+  - recommendation: Trade recommendation object
+- Returns: Execution status and results
+
+### Social Media
+
+#### `GET /api/tweet-generator`
+
+- Generates market analysis tweets
+- Incorporates latest agent data and trades
+- Stores tweets in database
+- Returns: Generated tweet content
+
+### Monitoring
+
+#### `GET /api/analyst-cron`
+
+- Endpoint for scheduled analysis tasks
+- Triggers agent analysis pipeline
+- Returns: Cron job execution status
+
+## Development Setup
+
+1. **Environment Setup**
+
+   ```bash
+   # Clone repository
+   git clone [repository-url]
+
+   # Install dependencies
+   yarn install
+
+   # Set up environment variables
+   cp .env.example .env.local
+   ```
+
+2. **Required Environment Variables**
+
+   ```
+   NEXT_PUBLIC_APP_URL=
+   API_KEY_NAME=
+   API_KEY_PRIVATE_KEY=
+   WALLET_DATA=
+   NETWORK_ID=
+   OPENAI_API_KEY=
+   ```
+
+3. **Development Server**
+
+   ```bash
+   yarn dev
+   ```
+
+4. **Build for Production**
+   ```bash
+   yarn build
+   ```
+
+## Security Considerations
+
+- API keys and wallet data are securely managed via environment variables
+- Trade execution requires proper authentication
+- Rate limiting implemented on API endpoints
+- Input validation using Zod schemas
+
+## Performance Optimization
+
+- Server-side rendering for data-heavy pages
+- Optimized database queries with proper indexing
+- Caching implemented for frequently accessed data
+- Background processing for intensive operations
+
+## Monitoring and Maintenance
+
+- Error logging and monitoring via console
+- Automated cron jobs for regular analysis
+- Database backups and maintenance
+- Performance monitoring and optimization
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+[License Information]
