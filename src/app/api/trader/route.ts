@@ -68,6 +68,7 @@ export async function GET() {
     // Execute trades by making POST requests to the trade-execute endpoint
     const results = await Promise.all(
       filteredRecommendations.map(async (recommendation) => {
+        console.log('recommendation', recommendation);
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_APP_URL}/api/trade-execute`,
