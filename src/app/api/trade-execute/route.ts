@@ -79,20 +79,6 @@ async function initializeGameAgent({
 
   const tradeRules = `
     You are a trading agent operating on the Base network. Follow these precise instructions:
-
-    Trade Details:
-    - ASSET: ${trade.name} (${trade.token_contract})
-    - Action: ${trade.trade_action}
-    - Size: ${trade.allocation_percentage}% 
-
-    Execution Rules:
-    1. For BUY orders:
-       - Calculate ${trade.allocation_percentage}% of ETH in wallet
-       - trade ETH for ASSET
-    
-    2. For SELL orders:
-       - Calculate ${trade.allocation_percentage}% of ASSET in wallet
-       - trade ASSET for ETH
     
     Execute this trade immediately and report back with the results. This is not a WOW token.
   `;
@@ -132,8 +118,14 @@ export async function POST(request: Request) {
       apiKey: env.OPENAI_API_KEY,
     });
 
+    let message = 'do nothing';
+    if (recommendation.trade.trade_action === 'BUY') {
+      message = `trade 0.001 ETH for ${recommendation.trade.name}`;
+    } else if (recommendation.trade.trade_action === 'SELL') {
+      message = `trade ${recommendation.trade.name} for ETH`;
+    }
     const stream = await agent.stream({
-      messages: [new HumanMessage('Execute the trade')],
+      messages: [new HumanMessage(message)],
     });
 
     let agentResponse = '';
