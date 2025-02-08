@@ -158,6 +158,109 @@ export default async function AgentPage({ params }: { params: Params }) {
           </div>
         </div>
 
+        {/* Analysis Section */}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+          <div className="px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-900 mb-6">
+              Detailed Analysis
+            </h2>
+
+            {/* Executive Summary */}
+            <div className="mb-8">
+              <h3 className="text-base font-medium text-gray-900 mb-3">
+                Executive Summary
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                {agent.analysis.executiveSummary}
+              </p>
+            </div>
+
+            {/* Technical Analysis */}
+            <div className="mb-8">
+              <h3 className="text-base font-medium text-gray-900 mb-3">
+                Technical Analysis
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Score:</span>
+                  <span className="font-medium">
+                    {agent.analysis.technicalAnalysis.score}/10
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Price Action</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.technicalAnalysis.priceAction}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Volume Analysis</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.technicalAnalysis.volumeAnalysis}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Market Structure</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.technicalAnalysis.marketStructure}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Metrics */}
+            <div className="mb-8">
+              <h3 className="text-base font-medium text-gray-900 mb-3">
+                Social Metrics
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Score:</span>
+                  <span className="font-medium">
+                    {agent.analysis.socialMetrics.score}/10
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Sentiment Analysis
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.socialMetrics.sentimentAnalysis}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Engagement Quality
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.socialMetrics.engagementQuality}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Social Momentum</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {agent.analysis.socialMetrics.socialMomentum}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Supporting Rationale */}
+            <div>
+              <h3 className="text-base font-medium text-gray-900 mb-3">
+                Supporting Rationale
+              </h3>
+              <ul className="list-disc list-inside space-y-2">
+                {agent.analysis.supportingRationale.map((rationale, index) => (
+                  <li key={index} className="text-gray-700 leading-relaxed">
+                    {rationale}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* 3-Day Performance Metrics */}
         {agent._3Days && (
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
@@ -289,109 +392,6 @@ export default async function AgentPage({ params }: { params: Params }) {
             </div>
           </div>
         )}
-
-        {/* Analysis Section */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-          <div className="px-6 py-4">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6">
-              Detailed Analysis
-            </h2>
-
-            {/* Executive Summary */}
-            <div className="mb-8">
-              <h3 className="text-base font-medium text-gray-900 mb-3">
-                Executive Summary
-              </h3>
-              <p className="text-gray-700 leading-relaxed">
-                {agent.analysis.executiveSummary}
-              </p>
-            </div>
-
-            {/* Technical Analysis */}
-            <div className="mb-8">
-              <h3 className="text-base font-medium text-gray-900 mb-3">
-                Technical Analysis
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Score:</span>
-                  <span className="font-medium">
-                    {agent.analysis.technicalAnalysis.score}/10
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Price Action</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.technicalAnalysis.priceAction}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Volume Analysis</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.technicalAnalysis.volumeAnalysis}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Market Structure</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.technicalAnalysis.marketStructure}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Social Metrics */}
-            <div className="mb-8">
-              <h3 className="text-base font-medium text-gray-900 mb-3">
-                Social Metrics
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Score:</span>
-                  <span className="font-medium">
-                    {agent.analysis.socialMetrics.score}/10
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">
-                    Sentiment Analysis
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.socialMetrics.sentimentAnalysis}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">
-                    Engagement Quality
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.socialMetrics.engagementQuality}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Social Momentum</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    {agent.analysis.socialMetrics.socialMomentum}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Supporting Rationale */}
-            <div>
-              <h3 className="text-base font-medium text-gray-900 mb-3">
-                Supporting Rationale
-              </h3>
-              <ul className="list-disc list-inside space-y-2">
-                {agent.analysis.supportingRationale.map((rationale, index) => (
-                  <li key={index} className="text-gray-700 leading-relaxed">
-                    {rationale}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
 
         {/* Recent Tweets */}
         {agent.tweets && agent.tweets.length > 0 && (
