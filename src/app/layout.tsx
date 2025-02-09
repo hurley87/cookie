@@ -69,10 +69,10 @@ export default function RootLayout({
           <ul className="flex space-x-6 text-lg font-medium p-6">
             <li>
               <Link
-                href="/"
+                href="/tokens"
                 className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
               >
-                Analyst
+                Agents
               </Link>
             </li>
             <li>
@@ -80,7 +80,7 @@ export default function RootLayout({
                 href="/trades"
                 className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
               >
-                Trader
+                Trades
               </Link>
             </li>
             <li>
@@ -88,7 +88,7 @@ export default function RootLayout({
                 href="/tweets"
                 className="hover:text-indigo-400 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/5"
               >
-                Influencer
+                Tweets
               </Link>
             </li>
           </ul>

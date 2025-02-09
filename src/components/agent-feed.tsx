@@ -32,7 +32,7 @@ export function AgentFeed({ agents }: AgentFeedProps) {
   );
 
   return (
-    <div>
+    <div className="container mx-auto py-6 px-4 max-w-2xl">
       {/* Filter Buttons */}
       <div className="flex gap-2 mb-6">
         <button

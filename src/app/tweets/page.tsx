@@ -35,20 +35,6 @@ export default async function TweetsPage() {
             className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <div className="px-6 py-4">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                  <span className="text-xl">🤖</span>
-                </div>
-                <div>
-                  <h2 className="font-semibold text-gray-900">
-                    AI Market Analyst
-                  </h2>
-                  <p className="text-sm text-gray-500">
-                    {new Date(tweet.created_at).toLocaleString()}
-                  </p>
-                </div>
-              </div>
-
               <div className="text-gray-600 text-base whitespace-pre-wrap">
                 {tweet.content}
               </div>
@@ -60,10 +46,10 @@ export default async function TweetsPage() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-blue-500 transition-colors duration-200 flex items-center gap-1"
+                  className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium text-sm hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 mr-2"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >

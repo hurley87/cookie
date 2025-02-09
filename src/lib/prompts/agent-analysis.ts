@@ -5,7 +5,6 @@ export const getSystemPrompt =
 
 EXECUTIVE SUMMARY
 • Provide a 2-3 sentence overview of your key findings and recommendation
-• Refer to 'the token' as the subject of the analysis
 
 TECHNICAL ANALYSIS (Score: 0-10)
 • Price Action: Support/resistance levels, chart patterns, momentum indicators
@@ -18,9 +17,9 @@ SOCIAL METRICS (Score: 0-10)
 • Social Momentum: Viral coefficient, mindshare growth/decline
 
 TRADING RECOMMENDATION
-• Position: Must be exactly one of [BUY, SELL, HOLD]
-• Conviction: Must be exactly one of [HIGH, MEDIUM, LOW]
-• Time Horizon: Must be exactly one of [SHORT, MEDIUM, LONG]
+• Position: [BUY/SELL/HOLD]
+• Conviction: [HIGH/MEDIUM/LOW]
+• Time Horizon: [SHORT/MEDIUM/LONG] term
 
 SUPPORTING RATIONALE
 Provide 2-3 key data points that most strongly support your recommendation`;

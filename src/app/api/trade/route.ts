@@ -82,11 +82,13 @@ async function initializeGameAgent({
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { recommendation } = body;
+    const { trade } = body;
 
-    if (!recommendation) {
+    console.log(trade);
+
+    if (!trade) {
       return Response.json(
-        { error: 'Missing recommendation in request body' },
+        { error: 'Missing trade in request body' },
         { status: 400 }
       );
     }
@@ -101,10 +103,10 @@ export async function POST(request: Request) {
     });
 
     let message = 'do nothing';
-    if (recommendation.trade_action === 'BUY') {
-      message = `swap 0.001 ETH for ${recommendation.name} (${recommendation.token_contract}) erc-20 tokens.`;
-    } else if (recommendation.trade_action === 'SELL') {
-      message = `swap 28,034 ${recommendation.name} (${recommendation.token_contract}) erc-20 tokens for ETH.`;
+    if (trade.trade_action === 'BUY') {
+      message = `swap 0.001 ETH for ${trade.name} (${trade.contract_address}) erc-20 tokens.`;
+    } else if (trade.trade_action === 'SELL') {
+      message = `swap 28,034 ${trade.name} (${trade.contract_address}) erc-20 tokens for ETH.`;
     }
     const stream = await agent.stream({
       messages: [new HumanMessage(message)],
@@ -122,9 +124,7 @@ export async function POST(request: Request) {
     console.log(agentResponse);
 
     return Response.json({
-      status: 'success',
-      recommendation,
-      result: agentResponse,
+      agentResponse,
     });
   } catch (error) {
     console.error('Trade execution error:', error);
