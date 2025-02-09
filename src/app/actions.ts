@@ -2,7 +2,6 @@
 
 import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
-import { createStreamableValue } from 'ai/rsc';
 import { z } from 'zod';
 
 export interface Message {
