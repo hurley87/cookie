@@ -52,14 +52,15 @@ export async function GET() {
       Focus on significant price movements, trading volumes, and market sentiment.
       Use emojis appropriately to enhance readability.
       Keep the tweet within Twitter's character limit.
-      Use cashtags ($) for token names when applicable.`,
+      Don't use hashtags.
+      Tag token with @ when applicable, example @bank.`,
       prompt: `Create a compelling tweet about the latest AI agents and trades based on this data:
 
 Agents:
 ${agents
   .map(
     (agent) => `
-- ${agent.name}
+- @${agent.twitter}
   • Mindshare: ${agent._3Days.mindshare.toFixed(2)}% (${
       agent._3Days.mindshareDeltaPercent > 0 ? '+' : ''
     }${agent._3Days.mindshareDeltaPercent.toFixed(2)}%)
@@ -76,7 +77,6 @@ ${trades
   .map(
     (trade) => `
 - ${trade.name}: ${trade.trade_action} with ${trade.conviction_level} conviction
-  • Allocation: ${trade.allocation_percentage}%
   • Time Horizon: ${trade.time_horizon}
 `
   )
