@@ -9,6 +9,48 @@ export interface Message {
   content: string;
 }
 
+interface Analysis {
+  sentiment: string;
+  confidence: string;
+  summary: string;
+  key_metrics: string[];
+  executiveSummary?: string;
+  technicalAnalysis?: {
+    score: number;
+    priceAction: string;
+    volumeAnalysis: string;
+    marketStructure: string;
+  };
+  socialMetrics?: {
+    score: number;
+    sentimentAnalysis: string;
+    engagementQuality: string;
+    socialMomentum: string;
+  };
+  tradingRecommendation?: {
+    position: string;
+    conviction: string;
+    timeHorizon: string;
+  };
+}
+
+interface MetricData {
+  mindshare: number;
+  mindshareDeltaPercent: number;
+  marketCap: number;
+  marketCapDeltaPercent: number;
+  volume24Hours: number;
+}
+
+interface Agent {
+  contract_address: string;
+  name: string;
+  twitter: string | null;
+  _7Days: MetricData;
+  _3Days: MetricData;
+  analysis: Analysis;
+}
+
 export async function getAgentInfo(contractAddress?: string) {
   'use server';
 
@@ -36,7 +78,7 @@ export async function getAgentInfo(contractAddress?: string) {
     }
 
     // Process and format the data
-    const formattedAgents = agents.map((agent: any) => ({
+    const formattedAgents = agents.map((agent: Agent) => ({
       contract_address: agent.contract_address,
       name: agent.name || 'Unknown Agent',
       twitter: agent.twitter,
@@ -96,20 +138,20 @@ Analysis:
 Executive Summary:
 ${agent.analysis.executiveSummary}
 
-Technical Analysis (Score: ${agent.analysis.technicalAnalysis.score}/10):
-- Price Action: ${agent.analysis.technicalAnalysis.priceAction}
-- Volume Analysis: ${agent.analysis.technicalAnalysis.volumeAnalysis}
-- Market Structure: ${agent.analysis.technicalAnalysis.marketStructure}
+Technical Analysis (Score: ${agent.analysis.technicalAnalysis?.score}/10):
+- Price Action: ${agent.analysis.technicalAnalysis?.priceAction}
+- Volume Analysis: ${agent.analysis.technicalAnalysis?.volumeAnalysis}
+- Market Structure: ${agent.analysis.technicalAnalysis?.marketStructure}
 
-Social Metrics (Score: ${agent.analysis.socialMetrics.score}/10):
-- Sentiment: ${agent.analysis.socialMetrics.sentimentAnalysis}
-- Engagement: ${agent.analysis.socialMetrics.engagementQuality}
-- Social Momentum: ${agent.analysis.socialMetrics.socialMomentum}
+Social Metrics (Score: ${agent.analysis.socialMetrics?.score}/10):
+- Sentiment: ${agent.analysis.socialMetrics?.sentimentAnalysis}
+- Engagement: ${agent.analysis.socialMetrics?.engagementQuality}
+- Social Momentum: ${agent.analysis.socialMetrics?.socialMomentum}
 
 Trading Recommendation:
-- Position: ${agent.analysis.tradingRecommendation.position}
-- Conviction: ${agent.analysis.tradingRecommendation.conviction}
-- Time Horizon: ${agent.analysis.tradingRecommendation.timeHorizon}
+- Position: ${agent.analysis.tradingRecommendation?.position}
+- Conviction: ${agent.analysis.tradingRecommendation?.conviction}
+- Time Horizon: ${agent.analysis.tradingRecommendation?.timeHorizon}
 
 Contract: ${agent.contract_address}
 `
