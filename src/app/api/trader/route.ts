@@ -6,6 +6,13 @@ import {
   generateTradePrompt,
 } from '@/lib/prompts/trade-generator';
 import { tradeRecommendationSchema } from '@/lib/schemas/trade-recommendation';
+import { base } from 'viem/chains';
+import { createPublicClient, formatEther, http } from 'viem';
+
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http('https://base.llamarpc.com'),
+});
 
 export async function GET() {
   try {
@@ -42,27 +49,44 @@ export async function GET() {
         rec.trade.conviction_level === 'HIGH'
     );
 
+    // wallet is 0x9ce10cd2916b74BF078D935b005dcf6E6147b598
+    // get balance of wallet
+    const balance = await publicClient.getBalance({
+      address: '0x9ce10cd2916b74BF078D935b005dcf6E6147b598',
+    });
+    console.log('balance', balance);
+    const formattedBalance = formatEther(balance);
+    console.log('formattedBalance', formattedBalance);
+
+    // Calculate maximum tradeable amount (10% of wallet balance)
+    const maxTradeableAmount = parseFloat(formattedBalance) * 0.1;
+    console.log('maxTradeableAmount', maxTradeableAmount);
+
     // If no valid recommendations after filtering, return empty response
     if (filteredRecommendations.length === 0) {
       return Response.json({ recommendations: { recommendations: [] } });
     }
 
-    // Recalculate allocations for BUY trades to ensure they sum to 100%
+    // Calculate ETH amounts for BUY trades to ensure they don't exceed 10% of wallet balance
     const buyRecommendations = filteredRecommendations.filter(
       (rec) => rec.trade.trade_action === 'BUY'
     );
 
     if (buyRecommendations.length > 0) {
       const totalAllocation = buyRecommendations.reduce(
-        (sum, rec) => sum + rec.trade.allocation_percentage,
+        (sum, rec) => sum + (rec.trade.eth_amount || 0),
         0
       );
 
-      // Normalize allocations to sum to 100%
-      buyRecommendations.forEach((rec) => {
-        rec.trade.allocation_percentage =
-          (rec.trade.allocation_percentage / totalAllocation) * 100;
-      });
+      // If total ETH amount exceeds maxTradeableAmount, scale down proportionally
+      if (totalAllocation > maxTradeableAmount) {
+        const scaleFactor = maxTradeableAmount / totalAllocation;
+        buyRecommendations.forEach((rec) => {
+          rec.trade.eth_amount = parseFloat(
+            (rec.trade.eth_amount * scaleFactor).toFixed(6)
+          );
+        });
+      }
     }
 
     // Execute trades by making POST requests to the trade-execute endpoint
@@ -76,6 +100,7 @@ export async function GET() {
         };
 
         console.log('trade', trade);
+
         try {
           const { data, error } = await supabaseService
             .from('trades')

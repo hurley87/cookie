@@ -3862,6 +3862,20 @@ viem@^2.21.26, viem@^2.21.51:
     ox "0.6.7"
     ws "8.18.0"
 
+viem@^2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.23.0.tgz#230aa4bba2b37b221dfdfc8adc49c25f3805c0e2"
+  integrity sha512-OrWFRFJ4qlChse0MHqYpdN+WBzQtU/iWQmsVwbIM4IjWT112M2O1Lidbseti6RH/nn1X2MvKMGzgILpmSyV2aw==
+  dependencies:
+    "@noble/curves" "1.8.1"
+    "@noble/hashes" "1.7.1"
+    "@scure/bip32" "1.6.2"
+    "@scure/bip39" "1.5.4"
+    abitype "1.0.8"
+    isows "1.0.6"
+    ox "0.6.7"
+    ws "8.18.0"
+
 web-streams-polyfill@4.0.0-beta.3:
   version "4.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-4.0.0-beta.3.tgz#2898486b74f5156095e473efe989dcf185047a38"
