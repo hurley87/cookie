@@ -103,31 +103,57 @@ export async function GET() {
         console.log('trade', trade);
 
         try {
-          // use trade to make a POST request to the trade-execute endpoint
-          const response = await fetch('/api/trade', {
-            method: 'POST',
-            body: JSON.stringify({ trade }),
-          });
+          // Generate a unique trade ID
+          const tradeId = crypto.randomUUID();
 
-          console.log('response', response);
+          // Prepare the trade data
+          const tradeData = {
+            ...tradeWithoutAllocation,
+            justification: recommendation.justification,
+            status: 'PENDING' as const,
+            trade_id: tradeId,
+            created_at: new Date().toISOString(),
+          };
 
-          const { data, error } = await supabaseService
+          // Save the trade request immediately
+          const { data: savedTrade, error: saveError } = await supabaseService
             .from('trades')
-            .insert(savedTrade);
+            .insert(tradeData);
 
-          if (error) {
-            console.error('Supabase error:', error);
-            return Response.json(
-              { error: 'Failed to save recommendation' },
-              { status: 500 }
-            );
+          if (saveError) {
+            console.error('Supabase error:', saveError);
+            return {
+              status: 'failed',
+              error: 'Failed to save trade request',
+            };
           }
 
-          console.log('recommendation saved successfully', data);
+          console.log('savedTrade', savedTrade);
 
+          // Initiate the trade execution asynchronously
+          fetch('/api/trade', {
+            method: 'POST',
+            body: JSON.stringify({ trade, tradeId }),
+          }).catch((error) => {
+            console.error(
+              `Background trade execution failed for ${recommendation.trade.name}:`,
+              error
+            );
+            // Update trade status to failed in case of error
+            supabaseService
+              .from('trades')
+              .update({ status: 'FAILED', error: error.message })
+              .match({ trade_id: tradeId })
+              .then(() => {
+                console.log('Trade status updated to FAILED');
+              });
+          });
+
+          // Return immediate success response with trade ID
           return {
-            status: 'success',
-            message: 'Recommendation saved successfully',
+            status: 'pending',
+            message: 'Trade request accepted',
+            trade_id: tradeId,
           };
         } catch (error) {
           console.error(

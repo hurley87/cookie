@@ -4,6 +4,7 @@ import { HumanMessage } from '@langchain/core/messages';
 import { CdpToolkit } from '@coinbase/cdp-langchain';
 import { ChatOpenAI } from '@langchain/openai';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
+import { supabaseService } from '@/lib/services/supabase';
 
 // Environment variable schema
 const envSchema = z.object({
@@ -82,13 +83,13 @@ async function initializeGameAgent({
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { trade } = body;
+    const { trade, tradeId } = body;
 
-    console.log(trade);
+    console.log('Processing trade:', trade);
 
-    if (!trade) {
+    if (!trade || !tradeId) {
       return Response.json(
-        { error: 'Missing trade in request body' },
+        { error: 'Missing trade or tradeId in request body' },
         { status: 400 }
       );
     }
@@ -108,6 +109,13 @@ export async function POST(request: Request) {
     } else if (trade.trade_action === 'SELL') {
       message = `swap ${trade.amount} ${trade.name} (${trade.contract_address}) erc-20 tokens for ETH.`;
     }
+
+    // Update trade status to PROCESSING
+    await supabaseService
+      .from('trades')
+      .update({ status: 'PROCESSING' })
+      .match({ trade_id: tradeId });
+
     const stream = await agent.stream({
       messages: [new HumanMessage(message)],
     });
@@ -121,13 +129,36 @@ export async function POST(request: Request) {
       }
     }
 
-    console.log(agentResponse);
+    console.log('Trade execution response:', agentResponse);
+
+    // Update trade status to COMPLETED
+    await supabaseService
+      .from('trades')
+      .update({
+        status: 'COMPLETED',
+        execution_response: agentResponse,
+      })
+      .match({ trade_id: tradeId });
 
     return Response.json({
+      status: 'success',
       agentResponse,
+      trade_id: tradeId,
     });
   } catch (error) {
     console.error('Trade execution error:', error);
+
+    // Update trade status to FAILED if we have a tradeId
+    if (error instanceof Error && 'tradeId' in error) {
+      await supabaseService
+        .from('trades')
+        .update({
+          status: 'FAILED',
+          error: error.message,
+        })
+        .match({ trade_id: error.tradeId });
+    }
+
     return Response.json(
       {
         status: 'failed',
