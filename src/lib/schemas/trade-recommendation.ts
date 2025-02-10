@@ -10,7 +10,7 @@ export const tradeRecommendationSchema = z.object({
         conviction_level: z.enum(['HIGH', 'MEDIUM', 'LOW']),
         time_horizon: z.enum(['SHORT', 'MEDIUM', 'LONG']),
         allocation_percentage: z.number().min(0).max(100),
-        eth_amount: z.number().min(0).optional(),
+        eth_amount: z.string(),
       }),
       justification: z.string(),
     })

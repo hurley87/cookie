@@ -73,7 +73,7 @@ export async function GET() {
       const ethAmount =
         (rec.trade.allocation_percentage / 100) * maxTradeableAmount;
       // Store the ETH amount with 6 decimal places precision
-      rec.trade.eth_amount = parseFloat(ethAmount.toFixed(6));
+      rec.trade.eth_amount = parseFloat(ethAmount.toFixed(6)).toString();
     });
 
     // Execute trades by making POST requests to the trade-execute endpoint
