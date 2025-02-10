@@ -67,26 +67,19 @@ export async function GET() {
       return Response.json({ recommendations: { recommendations: [] } });
     }
 
-    // Calculate ETH amounts for BUY trades to ensure they don't exceed 10% of wallet balance
+    // Convert allocation percentages to ETH amounts for BUY trades
     const buyRecommendations = filteredRecommendations.filter(
       (rec) => rec.trade.trade_action === 'BUY'
     );
 
     if (buyRecommendations.length > 0) {
-      const totalAllocation = buyRecommendations.reduce(
-        (sum, rec) => sum + (rec.trade.eth_amount || 0),
-        0
-      );
-
-      // If total ETH amount exceeds maxTradeableAmount, scale down proportionally
-      if (totalAllocation > maxTradeableAmount) {
-        const scaleFactor = maxTradeableAmount / totalAllocation;
-        buyRecommendations.forEach((rec) => {
-          rec.trade.eth_amount = parseFloat(
-            (rec.trade.eth_amount * scaleFactor).toFixed(6)
-          );
-        });
-      }
+      buyRecommendations.forEach((rec) => {
+        // Calculate ETH amount as allocation_percentage / 100 * maxTradeableAmount
+        const ethAmount =
+          (rec.trade.allocation_percentage / 100) * maxTradeableAmount;
+        // Store the ETH amount with 6 decimal places precision
+        rec.trade.eth_amount = parseFloat(ethAmount.toFixed(6));
+      });
     }
 
     // Execute trades by making POST requests to the trade-execute endpoint
@@ -94,13 +87,15 @@ export async function GET() {
       filteredRecommendations.map(async (recommendation) => {
         console.log('recommendation', recommendation);
 
+        const { allocation_percentage, ...tradeWithoutAllocation } =
+          recommendation.trade;
+
         const trade = {
-          ...recommendation.trade,
+          ...tradeWithoutAllocation,
           justification: recommendation.justification,
         };
 
         console.log('trade', trade);
-
         try {
           const { data, error } = await supabaseService
             .from('trades')
