@@ -14,8 +14,6 @@ const tradeRequestSchema = z.object({
   tradeId: z.string(),
 });
 
-type TradeRequest = z.infer<typeof tradeRequestSchema>;
-
 export function TradeTestButton() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +21,7 @@ export function TradeTestButton() {
     setIsLoading(true);
     try {
       // Sample trade data for testing
-      const tradeData: TradeRequest = {
+      const tradeData = {
         trade: {
           amount: '0.0001',
           trade_action: 'BUY',
@@ -33,12 +31,15 @@ export function TradeTestButton() {
         tradeId: crypto.randomUUID(),
       };
 
+      // Validate the trade data using the schema
+      const validatedData = tradeRequestSchema.parse(tradeData);
+
       const response = await fetch('/api/trade', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(tradeData),
+        body: JSON.stringify(validatedData),
       });
 
       const data = await response.json();
