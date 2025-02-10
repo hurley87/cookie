@@ -9,9 +9,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Agent Strategy',
+  title: 'AgentStrategy',
   description:
-    'A swarm of autonomous agents analyzing, trading and managing a portfolio of AI agent tokens.',
+    'A swarm of autonomous agents analyzing, trading and promoting a portfolio of AI agent tokens.',
 };
 
 export default function RootLayout({
