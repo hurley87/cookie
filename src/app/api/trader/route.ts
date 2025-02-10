@@ -131,7 +131,7 @@ export async function GET() {
           console.log('savedTrade', savedTrade);
 
           // Initiate the trade execution asynchronously
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/trade`, {
+          fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/trade`, {
             method: 'POST',
             body: JSON.stringify({ trade, tradeId }),
           }).catch((error) => {
