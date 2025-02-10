@@ -86,16 +86,34 @@ export async function GET() {
 
         console.log('allocation_percentage', allocation_percentage);
 
-        const trade = {
+        const savedTrade = {
           ...tradeWithoutAllocation,
           justification: recommendation.justification,
         };
 
+        console.log('savedTrade', savedTrade);
+
+        const trade = {
+          amount: savedTrade.eth_amount,
+          trade_action: savedTrade.trade_action,
+          name: savedTrade.name,
+          contract_address: savedTrade.token_contract,
+        };
+
         console.log('trade', trade);
+
         try {
+          // use trade to make a POST request to the trade-execute endpoint
+          const response = await fetch('/api/trade', {
+            method: 'POST',
+            body: JSON.stringify({ trade }),
+          });
+
+          console.log('response', response);
+
           const { data, error } = await supabaseService
             .from('trades')
-            .insert(trade);
+            .insert(savedTrade);
 
           if (error) {
             console.error('Supabase error:', error);
