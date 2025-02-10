@@ -42,12 +42,17 @@ export async function GET() {
       prompt: generateTradePrompt(agents),
     });
 
-    // Filter out HOLD recommendations and non-HIGH conviction trades
-    const filteredRecommendations = recommendations.recommendations.filter(
+    // Filter out HOLD and SELL recommendations and non-HIGH conviction trades
+    const buyRecommendations = recommendations.recommendations.filter(
       (rec) =>
-        rec.trade.trade_action !== 'HOLD' &&
+        rec.trade.trade_action === 'BUY' &&
         rec.trade.conviction_level === 'HIGH'
     );
+
+    // If no valid recommendations after filtering, return empty response
+    if (buyRecommendations.length === 0) {
+      return Response.json({ recommendations: { recommendations: [] } });
+    }
 
     // wallet is 0x9ce10cd2916b74BF078D935b005dcf6E6147b598
     // get balance of wallet
@@ -62,32 +67,20 @@ export async function GET() {
     const maxTradeableAmount = parseFloat(formattedBalance) * 0.1;
     console.log('maxTradeableAmount', maxTradeableAmount);
 
-    // If no valid recommendations after filtering, return empty response
-    if (filteredRecommendations.length === 0) {
-      return Response.json({ recommendations: { recommendations: [] } });
-    }
-
-    // Convert allocation percentages to ETH amounts for BUY trades
-    const buyRecommendations = filteredRecommendations.filter(
-      (rec) => rec.trade.trade_action === 'BUY'
-    );
-
-    if (buyRecommendations.length > 0) {
-      buyRecommendations.forEach((rec) => {
-        // Calculate ETH amount as allocation_percentage / 100 * maxTradeableAmount
-        const ethAmount =
-          (rec.trade.allocation_percentage / 100) * maxTradeableAmount;
-        // Store the ETH amount with 6 decimal places precision
-        rec.trade.eth_amount = parseFloat(ethAmount.toFixed(6));
-      });
-    }
+    // Calculate ETH amounts for BUY trades
+    buyRecommendations.forEach((rec) => {
+      // Calculate ETH amount as allocation_percentage / 100 * maxTradeableAmount
+      const ethAmount =
+        (rec.trade.allocation_percentage / 100) * maxTradeableAmount;
+      // Store the ETH amount with 6 decimal places precision
+      rec.trade.eth_amount = parseFloat(ethAmount.toFixed(6));
+    });
 
     // Execute trades by making POST requests to the trade-execute endpoint
     const results = await Promise.all(
-      filteredRecommendations.map(async (recommendation) => {
+      buyRecommendations.map(async (recommendation) => {
         console.log('recommendation', recommendation);
 
-        // Omit allocation_percentage from trade data without explicitly destructuring it
         const { allocation_percentage, ...tradeWithoutAllocation } =
           recommendation.trade;
 
@@ -132,7 +125,7 @@ export async function GET() {
     );
 
     return Response.json({
-      recommendations: filteredRecommendations,
+      recommendations: buyRecommendations,
       execution_results: results,
     });
   } catch (error) {
