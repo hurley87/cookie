@@ -116,7 +116,7 @@ export async function GET() {
           };
 
           // Save the trade request immediately
-          const { data: savedTrade, error: saveError } = await supabaseService
+          const { error: saveError } = await supabaseService
             .from('trades')
             .insert(tradeData);
 
@@ -127,8 +127,6 @@ export async function GET() {
               error: 'Failed to save trade request',
             };
           }
-
-          console.log('savedTrade', savedTrade);
 
           // Initiate the trade execution asynchronously
           fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/trade`, {

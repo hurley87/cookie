@@ -17,9 +17,6 @@
     "src/app/api/trader": {
       "maxDuration": 300
     },
-    "src/app/api/trade-execute": {
-      "maxDuration": 300
-    },
     "src/app/api/influencer": {
       "maxDuration": 300
     }

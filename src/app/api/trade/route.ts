@@ -105,9 +105,9 @@ export async function POST(request: Request) {
 
     let message = 'do nothing';
     if (trade.trade_action === 'BUY') {
-      message = `swap ${trade.amount} ETH for ${trade.name} (${trade.contract_address}) erc-20 tokens.`;
+      message = `swap ${trade.amount} ETH for ${trade.contract_address} erc-20 tokens.`;
     } else if (trade.trade_action === 'SELL') {
-      message = `swap ${trade.amount} ${trade.name} (${trade.contract_address}) erc-20 tokens for ETH.`;
+      message = `swap ${trade.amount} ${trade.contract_address} erc-20 tokens for ETH.`;
     }
 
     // Update trade status to PROCESSING
