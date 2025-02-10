@@ -87,7 +87,8 @@ export async function GET() {
       filteredRecommendations.map(async (recommendation) => {
         console.log('recommendation', recommendation);
 
-        const { allocation_percentage, ...tradeWithoutAllocation } =
+        // Omit allocation_percentage from trade data without explicitly destructuring it
+        const { allocation_percentage: _, ...tradeWithoutAllocation } =
           recommendation.trade;
 
         const trade = {
