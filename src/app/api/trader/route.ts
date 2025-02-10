@@ -88,8 +88,10 @@ export async function GET() {
         console.log('recommendation', recommendation);
 
         // Omit allocation_percentage from trade data without explicitly destructuring it
-        const { allocation_percentage: _, ...tradeWithoutAllocation } =
+        const { allocation_percentage, ...tradeWithoutAllocation } =
           recommendation.trade;
+
+        console.log('allocation_percentage', allocation_percentage);
 
         const trade = {
           ...tradeWithoutAllocation,
