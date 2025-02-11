@@ -46,8 +46,6 @@ export async function GET() {
       return Response.json({ error: 'No agents found' }, { status: 404 });
     }
 
-    console.log('agents', agents);
-
     if (!process.env.ZAPPER_API_KEY) {
       console.error('Zapper API key is not configured');
       return Response.json(
@@ -127,6 +125,8 @@ query GetCompletePortfolio($addresses: [Address!]!) {
         .includes(token.contract_address)
     );
 
+    console.log('matchingTokens', matchingTokens);
+
     if (matchingTokens.length === 0) {
       return Response.json({
         recommendations: [],
@@ -153,6 +153,8 @@ query GetCompletePortfolio($addresses: [Address!]!) {
       })
     );
 
+    console.log('matchingAgents', matchingAgents);
+
     // Generate sell recommendations
     const { object: recommendations } = await generateObject({
       model: openai('gpt-4o-mini'),
@@ -175,6 +177,8 @@ query GetCompletePortfolio($addresses: [Address!]!) {
         message: 'No high conviction sell recommendations generated',
       });
     }
+
+    console.log('sellRecommendations', sellRecommendations);
 
     // Prepare trades for execution
     const trades = await Promise.all(
