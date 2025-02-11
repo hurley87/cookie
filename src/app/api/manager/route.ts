@@ -146,8 +146,6 @@ query GetCompletePortfolio($addresses: [Address!]!) {
       })
       .filter(Boolean);
 
-    console.log('matchingTokens', matchingTokens);
-
     if (matchingTokens.length === 0) {
       return Response.json({
         recommendations: [],
@@ -180,8 +178,6 @@ query GetCompletePortfolio($addresses: [Address!]!) {
         message: 'No high conviction sell recommendations generated',
       });
     }
-
-    console.log('sellRecommendations', sellRecommendations);
 
     // Prepare trades for execution
     const trades = await Promise.all(
