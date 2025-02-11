@@ -6,14 +6,7 @@ import {
   generateTradePrompt,
 } from '@/lib/prompts/trade-generator';
 import { tradeRecommendationSchema } from '@/lib/schemas/trade-recommendation';
-import { base } from 'viem/chains';
-import { createPublicClient, formatEther, http } from 'viem';
 import { base as baseAgents } from '@/lib/agents';
-
-const publicClient = createPublicClient({
-  chain: base,
-  transport: http('https://base.llamarpc.com'),
-});
 
 interface Token {
   token: {
@@ -31,14 +24,6 @@ interface PortfolioToken {
   balance: string;
   balanceUSD: string;
   symbol: string;
-}
-
-interface AgentData extends PortfolioToken {
-  name?: string;
-  twitter?: string;
-  analysis?: any;
-  _3Days?: any;
-  _7Days?: any;
 }
 
 export async function GET() {
