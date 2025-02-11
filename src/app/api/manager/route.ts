@@ -15,6 +15,7 @@ interface Token {
     baseToken: {
       address: string;
       symbol: string;
+      price?: number;
     };
   };
 }
@@ -111,12 +112,22 @@ query GetCompletePortfolio($addresses: [Address!]!) {
 
     console.log('Portfolio data:', data);
 
-    const portfolio = data.data.portfolio.tokenBalances.map((token: Token) => ({
-      contract_address: token.token.baseToken.address.toLowerCase(),
-      balance: token.token.balance,
-      balanceUSD: token.token.balanceUSD,
-      symbol: token.token.baseToken.symbol,
-    }));
+    const portfolio = data.data.portfolio.tokenBalances
+      .map((token: Token) => {
+        if (!token?.token?.baseToken) {
+          console.warn('Invalid token data structure:', token);
+          return null;
+        }
+
+        return {
+          contract_address: token.token.baseToken.address.toLowerCase(),
+          balance: token.token.balance || '0',
+          balanceUSD: token.token.balanceUSD || '0',
+          symbol: token.token.baseToken.symbol || 'UNKNOWN',
+          price: token.token.baseToken.price || 0,
+        };
+      })
+      .filter(Boolean);
 
     // Find portfolio tokens that match baseAgents
     const matchingTokens = portfolio.filter((token: PortfolioToken) =>
