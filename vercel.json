@@ -11,6 +11,10 @@
     {
       "path": "/api/influencer",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/manager",
+      "schedule": "0 */12 * * *"
     }
   ],
   "functions": {

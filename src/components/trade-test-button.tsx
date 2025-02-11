@@ -34,22 +34,23 @@ export function TradeTestButton() {
       // Validate the trade data using the schema
       const validatedData = tradeRequestSchema.parse(tradeData);
 
-      const response = await fetch('/api/trade', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(validatedData),
+      await fetch('/api/manager', {
+        method: 'GET',
       });
 
-      const data = await response.json();
+      // const response = await fetch('/api/trade', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(validatedData),
+      // });
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to execute trade');
-      }
+      // const data = await response.json();
 
-      // Show success message
-      alert(`Trade executed successfully! Trade ID: ${data.trade_id}`);
+      // if (!response.ok) {
+      //   throw new Error(data.error || 'Failed to execute trade');
+      // }
     } catch (error) {
       console.error('Trade execution error:', error);
       // Show error message
