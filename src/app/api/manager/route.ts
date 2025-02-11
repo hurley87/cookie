@@ -26,6 +26,8 @@ interface PortfolioToken {
   symbol: string;
 }
 
+export const maxDuration = 300;
+
 export async function GET() {
   try {
     const { data: agents, error } = await supabaseService

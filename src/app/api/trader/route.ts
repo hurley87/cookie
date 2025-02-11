@@ -14,6 +14,8 @@ const publicClient = createPublicClient({
   transport: http('https://base.llamarpc.com'),
 });
 
+export const maxDuration = 300;
+
 export async function GET() {
   try {
     const { data: agents, error } = await supabaseService
