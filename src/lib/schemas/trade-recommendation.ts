@@ -12,6 +12,9 @@ export const tradeRecommendationSchema = z.object({
         allocation_percentage: z.number().min(0).max(100),
         eth_amount: z.string(),
       }),
+      risk_level: z.enum(['HIGH', 'MEDIUM', 'LOW']),
+      urgency: z.enum(['IMMEDIATE', 'NEXT 24H', 'MONITOR']),
+      risk_factors: z.array(z.string()).min(1).max(3),
       justification: z.string(),
     })
   ),

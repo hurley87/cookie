@@ -3,8 +3,8 @@ import { openai } from '@ai-sdk/openai';
 import { supabaseService } from '@/lib/services/supabase';
 import {
   getSystemPrompt,
-  generateTradePrompt,
-} from '@/lib/prompts/trade-generator';
+  generatePortfolioAnalysisPrompt,
+} from '@/lib/prompts/portfolio-manager';
 import { tradeRecommendationSchema } from '@/lib/schemas/trade-recommendation';
 
 interface Token {
@@ -161,17 +161,15 @@ query GetCompletePortfolio($addresses: [Address!]!) {
       model: openai('gpt-4o-mini'),
       schema: tradeRecommendationSchema,
       system: getSystemPrompt(),
-      prompt: generateTradePrompt(matchingTokens),
+      prompt: generatePortfolioAnalysisPrompt(matchingTokens),
     });
 
-    console.log('recommendations', recommendations);
-
-    // Filter for HIGH conviction SELL recommendations
+    // Filter for HIGH risk SELL recommendations
     const sellRecommendations = recommendations.recommendations.filter(
-      (rec) =>
-        rec.trade.trade_action === 'SELL' &&
-        rec.trade.conviction_level === 'HIGH'
+      (rec) => rec.trade.trade_action === 'SELL' && rec.risk_level === 'HIGH'
     );
+
+    console.log('sellRecommendations', sellRecommendations);
 
     if (sellRecommendations.length === 0) {
       return Response.json({
