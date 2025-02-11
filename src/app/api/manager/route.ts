@@ -6,7 +6,6 @@ import {
   generateTradePrompt,
 } from '@/lib/prompts/trade-generator';
 import { tradeRecommendationSchema } from '@/lib/schemas/trade-recommendation';
-import { base as baseAgents } from '@/lib/agents';
 
 interface Token {
   token: {
@@ -32,8 +31,7 @@ export async function GET() {
     const { data: agents, error } = await supabaseService
       .from('agents')
       .select('*')
-      .order('updated_at', { ascending: false })
-      .limit(5);
+      .order('updated_at', { ascending: false });
 
     if (error) {
       console.error('Supabase error:', error);
@@ -129,12 +127,24 @@ query GetCompletePortfolio($addresses: [Address!]!) {
       })
       .filter(Boolean);
 
-    // Find portfolio tokens that match baseAgents
-    const matchingTokens = portfolio.filter((token: PortfolioToken) =>
-      baseAgents
-        .map((addr) => addr.toLowerCase())
-        .includes(token.contract_address)
-    );
+    // Find portfolio tokens that match baseAgents and combine with agent data
+    const matchingTokens = portfolio
+      .map((token: PortfolioToken) => {
+        const matchingAgent = agents.find(
+          (agent) =>
+            agent.contract_address.toLowerCase() === token.contract_address
+        );
+
+        if (!matchingAgent) return null;
+
+        return {
+          ...matchingAgent,
+          balance: token.balance,
+          balanceUSD: token.balanceUSD,
+          symbol: token.symbol,
+        };
+      })
+      .filter(Boolean);
 
     console.log('matchingTokens', matchingTokens);
 
@@ -146,33 +156,15 @@ query GetCompletePortfolio($addresses: [Address!]!) {
       });
     }
 
-    // Get agent data for matching tokens
-    const matchingAgents = await Promise.all(
-      matchingTokens.map(async (token: PortfolioToken) => {
-        const { data: agentData } = await supabaseService
-          .from('agents')
-          .select('*')
-          .eq('contract_address', token.contract_address)
-          .single();
-
-        return {
-          ...agentData,
-          balance: token.balance,
-          balanceUSD: token.balanceUSD,
-          symbol: token.symbol,
-        };
-      })
-    );
-
-    console.log('matchingAgents', matchingAgents);
-
     // Generate sell recommendations
     const { object: recommendations } = await generateObject({
       model: openai('gpt-4o-mini'),
       schema: tradeRecommendationSchema,
       system: getSystemPrompt(),
-      prompt: generateTradePrompt(matchingAgents),
+      prompt: generateTradePrompt(matchingTokens),
     });
+
+    console.log('recommendations', recommendations);
 
     // Filter for HIGH conviction SELL recommendations
     const sellRecommendations = recommendations.recommendations.filter(
@@ -194,8 +186,8 @@ query GetCompletePortfolio($addresses: [Address!]!) {
     // Prepare trades for execution
     const trades = await Promise.all(
       sellRecommendations.map(async (recommendation) => {
-        const matchingAgent = matchingAgents.find(
-          (agent) =>
+        const matchingAgent = matchingTokens.find(
+          (agent: PortfolioToken) =>
             agent.contract_address === recommendation.trade.token_contract
         );
 
