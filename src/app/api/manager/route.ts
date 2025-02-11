@@ -200,7 +200,7 @@ query GetCompletePortfolio($addresses: [Address!]!) {
         // Save trade to database
         const tradeData = {
           trade_id: tradeId,
-          contract_address: recommendation.trade.token_contract,
+          token_contract: recommendation.trade.token_contract,
           trade_action: 'SELL',
           amount: matchingAgent.balance,
           status: 'PENDING',
